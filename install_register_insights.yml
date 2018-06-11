@@ -16,7 +16,7 @@
   stat: path=/etc/redhat-access-insights/.registered
   register: reg_file_task
 
-- name: Unregister if we are setting the display_name, and we have already registered
+- name: Unregister if we are setting the display_name, and we have already
   command: redhat-access-insights --unregister
   when:
     - insights_display_name is defined
@@ -24,7 +24,7 @@
     - reg_file_task.stat.exists == true
   register: unreg_task
 
-# Only register if this system hasn't been registered before
+# Only register if this system hasn't been registered 
 - name: Register to the Red Hat Access Insights Service
   command: redhat-access-insights --register {{ '--display-name='+insights_display_name if insights_display_name is defined else '' }} creates=/etc/redhat-access-insights/.registered
   when: unreg_file_task.stat.exists == false
